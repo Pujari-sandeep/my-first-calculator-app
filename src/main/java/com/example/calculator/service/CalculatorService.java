@@ -33,4 +33,12 @@ public class CalculatorService {
     public double division(double a,double b){
         return a/b;
     }
+    //find square root
+    public double squareRoot(double num) {
+        if (num < 0) {
+            throw new IllegalArgumentException("Cannot calculate square root of a negative number");
+        }
+        lastResult = Math.sqrt(num);
+        return lastResult;
+    }
 }

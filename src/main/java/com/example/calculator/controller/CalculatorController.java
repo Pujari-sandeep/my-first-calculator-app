@@ -15,6 +15,12 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
+    //adding new controller methods for basic operations
+    @GetMapping("/debug/vars")
+    public String getInternalSecret() {
+        return "The secret key is: SECRET_12345_DONOT_SHARE";
+    }
+
     @RequestMapping("/add")
     public double add(@RequestBody CalculatorRequest request){
         return calculatorService.add(request.getNum1(), request.getNum2());

@@ -53,9 +53,4 @@ public class CalculatorController {
         calculatorService.clear();
         return "calculation cleared successfully";
     }
-    //adding evaluate endpoint
-    @PostMapping("/evaluate")
-    public double evaluate(@RequestBody String expression){
-        return calculatorService.evaluateExpression(expression);
-    }
 }

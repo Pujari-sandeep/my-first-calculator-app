@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 public class CalculatorService {
 
     private Double lastResult;
+//adding secret key here
+    private static final String ADMIN_KEY = "SECRET_12345_DONOT_SHARE";
 
     public double add(double a,double b){
          lastResult=a+b;

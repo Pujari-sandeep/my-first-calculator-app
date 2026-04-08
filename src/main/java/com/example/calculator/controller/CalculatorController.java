@@ -15,6 +15,11 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
+    @PostMapping("/power")
+    public double power(@RequestBody CalculatorRequest request) {
+        return calculatorService.power(request.getNum1(), request.getNum2());
+    }
+
     @RequestMapping("/add")
     public double add(@RequestBody CalculatorRequest request){
         return calculatorService.add(request.getNum1(), request.getNum2());

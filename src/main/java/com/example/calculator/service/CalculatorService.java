@@ -33,4 +33,7 @@ public class CalculatorService {
     public double division(double a,double b){
         return a/b;
     }
+    public double power(double a, double b){
+        return Math.pow(a, b);
+    }
 }

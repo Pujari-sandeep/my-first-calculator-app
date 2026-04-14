@@ -60,4 +60,10 @@ public class CalculatorController {
     }
     //hey sandeep this is the nineaprill change
 
+    //adding sum all endpoint
+    @PostMapping("/sum-all")
+    public double sumAll(@RequestBody List<Double> numbers) {
+        return numbers.stream().mapToDouble(Double::doubleValue).sum();
+    }
+
 }

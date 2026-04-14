@@ -16,12 +16,6 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
-    //adding new controller methods for basic operations
-    @GetMapping("/debug/vars")
-    public String getInternalSecret() {
-        return "The secret key is: SECRET_12345_DONOT_SHARE";
-    }
-
     @RequestMapping("/add")
     public double add(@RequestBody CalculatorRequest request){
         return calculatorService.add(request.getNum1(), request.getNum2());
@@ -39,25 +33,22 @@ public class CalculatorController {
     public double division(@RequestBody CalculatorRequest request){
         return calculatorService.division(request.getNum1(), request.getNum2());
     }
-    //completed calculator basics
-    //get-fetch last result
+
     @GetMapping("/result")
     public Object getResult(){
         Double result=calculatorService.getLastResult();
         return result!=null?result:"no calculation done yet";
     }
 
-    //delete clear result
     @DeleteMapping("/clear")
     public String clear(){
         calculatorService.clear();
         return "calculation cleared successfully";
     }
-    //adding evaluate endpoint
-    @PostMapping("/evaluate")
-    public double evaluate(@RequestBody String expression){
-        return calculatorService.evaluateExpression(expression);
+
+    @PostMapping("/power")
+    public double power(@RequestBody CalculatorRequest request) {
+        return Math.pow(request.getNum1(), request.getNum2());
     }
-    //hey sandeep this is the nineaprill change
 
 }

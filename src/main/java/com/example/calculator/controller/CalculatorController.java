@@ -50,5 +50,9 @@ public class CalculatorController {
     public double power(@RequestBody CalculatorRequest request) {
         return Math.pow(request.getNum1(), request.getNum2());
     }
+    //adding payment method
+    public double payment(){
+        return 0.0;
+    }
 
 }

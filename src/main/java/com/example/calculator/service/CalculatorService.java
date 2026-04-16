@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 public class CalculatorService {
 
     private Double lastResult;
-//adding secret key here
-    private static final String ADMIN_KEY = "SECRET_12345_DONOT_SHARE";
+
 
     public double add(double a,double b){
          lastResult=a+b;
@@ -18,9 +17,7 @@ public class CalculatorService {
         return lastResult;
     }
 
-//    public void setLastResult(Double lastResult) {
-//        this.lastResult = lastResult;
-//    }
+
     public void clear(){
         lastResult=null;
     }
@@ -34,5 +31,9 @@ public class CalculatorService {
     }
     public double division(double a,double b){
         return a/b;
+    }
+
+    public double power(double num1, double num2) {
+        return Math.pow(num1, num2);
     }
 }

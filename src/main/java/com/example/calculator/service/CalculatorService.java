@@ -36,4 +36,10 @@ public class CalculatorService {
     public double power(double num1, double num2) {
         return Math.pow(num1, num2);
     }
+    public String payment(double amount) {
+        if (amount <= 0) {
+            return "FAILURE: Invalid amount";
+        }
+
+    
 }

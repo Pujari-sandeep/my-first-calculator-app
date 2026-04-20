@@ -54,5 +54,7 @@ public class CalculatorController {
     public double payment(){
         return 0.0;
     }
+    //ok above we have added payment method please check service files for its functionality 
+    
 
 }

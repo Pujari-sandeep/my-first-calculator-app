@@ -1,1 +1,2 @@
 checking sync test
+editing this file to check how different git commands work actually

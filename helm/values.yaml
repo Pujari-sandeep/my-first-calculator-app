@@ -1,0 +1,47 @@
+# Updated values.yaml for Production-grade deployment
+
+# Higher availability for production
+replicaCount: 3
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Fixed version (immutable) to prevent accidental upgrades
+  tag: "1.25.3"
+
+service:
+  # Changed to LoadBalancer for external cloud access
+  type: LoadBalancer 
+  port: 80
+  # Added a targetPort to explicitly map to the container
+  targetPort: 80
+
+# Production-scale resources (increased for stability)
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Security context to prevent root access (Higher Version standard)
+podSecurityContext:
+  runAsUser: 1000
+  fsGroup: 2000
+
+# Probes to ensure the app is actually working before sending traffic
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+# Environment specific configuration
+appConfig:
+  title: "My Production App"
+  environment: "production"
+  debugEnabled: false # Disabled for security/performance

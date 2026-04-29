@@ -100,7 +100,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - SERVICES_OLLAMA_URL=http://11.111.11.111:11111
+      - SERVICES_OLLAMA_URL=http://22.222.22.222:22222
       - SERVICES_OLLAMA_MODEL=llama3.2:latest
       - SERVICES_PAYMENT_SERVICE_URL=http://payment-service:8085
       - SERVICES_PLAN_SERVICE_URL=http://plan-service:8083

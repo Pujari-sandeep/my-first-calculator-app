@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.12
+    container_name: mystorage-db
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpassword
+      - MARIADB_USER=userone
+      - MARIADB_PASSWORD=passwordone
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./docker/mariadb/init:/docker-entrypoint-initdb.d
+    networks:
+      - mystorage-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JWT_SECRET=1234
+    depends_on:
+      - auth-service
+    networks:
+      - mystorage-network
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/auth_db
+      - SPRING_DATASOURCE_USERNAME=userone
+      - SPRING_DATASOURCE_PASSWORD=passwordone
+      - JWT_SECRET=1234
+    depends_on:
+      - mariadb
+    networks:
+      - mystorage-network
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/user_db
+      - SPRING_DATASOURCE_USERNAME=userone
+      - SPRING_DATASOURCE_PASSWORD=passwordone
+    depends_on:
+      - mariadb
+    networks:
+      - mystorage-network
+
+  plan-service:
+    build: ./plan-service
+    container_name: plan-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/plan_db
+      - SPRING_DATASOURCE_USERNAME=userone
+      - SPRING_DATASOURCE_PASSWORD=passwordone
+      - SERVICES_USER_SERVICE_URL=http://user-service:8082
+    depends_on:
+      - mariadb
+    networks:
+      - mystorage-network
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/payment_db
+      - SPRING_DATASOURCE_USERNAME=userone
+      - SPRING_DATASOURCE_PASSWORD=passwordone
+      - SERVICES_PLAN_SERVICE_URL=http://plan-service:8083
+      - SERVICES_USER_SERVICE_URL=http://user-service:8082
+    depends_on:
+      - mariadb
+    networks:
+      - mystorage-network
+
+  external-ppi-service:
+    build: ./external-ppi-service
+    container_name: external-ppi-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/ppi_db
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - JWT_SECRET=1234
+    depends_on:
+      - mariadb
+    networks:
+      - mystorage-network
+
+  ai-service:
+    build: ./ai-service
+    container_name: ai-service
+    ports:
+      - "8088:8088"
+    environment:
+      - SERVICES_OLLAMA_URL=http://22.222.22.222:22222
+      - SERVICES_OLLAMA_MODEL=llama3.2:latest
+      - SERVICES_PAYMENT_SERVICE_URL=http://payment-service:8085
+      - SERVICES_PLAN_SERVICE_URL=http://plan-service:8083
+      - SERVICES_STORAGE_SERVICE_URL=http://storage-service:8084
+      - SERVICES_USER_SERVICE_URL=http://user-service:8082
+    depends_on:
+      - api-gateway
+    networks:
+      - mystorage-network
+
+networks:
+  mystorage-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:

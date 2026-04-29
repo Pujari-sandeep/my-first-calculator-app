@@ -9,7 +9,7 @@ services:
       - MARIADB_USER=userone
       - MARIADB_PASSWORD=passwordone
     ports:
-      - "3306:3306"
+      - "3309:3309"
     volumes:
       - mariadb_data:/var/lib/mysql
       - ./docker/mariadb/init:/docker-entrypoint-initdb.d
@@ -101,7 +101,7 @@ services:
       - "8088:8088"
     environment:
       - SERVICES_OLLAMA_URL=http://22.222.22.222:22222
-      - SERVICES_OLLAMA_MODEL=llama3.2:latest
+      - SERVICES_OLLAMA_MODEL=llama3.3:latestnew
       - SERVICES_PAYMENT_SERVICE_URL=http://payment-service:8085
       - SERVICES_PLAN_SERVICE_URL=http://plan-service:8083
       - SERVICES_STORAGE_SERVICE_URL=http://storage-service:8084

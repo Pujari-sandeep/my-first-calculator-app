@@ -1,0 +1,16 @@
+helmReleases:
+  - name: ingress-controller
+    version: 1.18.0        # Rule: helmReleases.0.version (Upgraded from 1.17.1)
+    namespace: kube-system
+
+metrics:
+  serviceMonitor:
+    enabled: false         # Rule: metrics.serviceMonitor.enabled (Toggled from true)
+
+topologySpreadConstraints:
+  - maxSkew: 2             # Rule: topologySpreadConstraints.0.maxSkew (Increased from 1)
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+  - maxSkew: 5
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: ScheduleAnyway

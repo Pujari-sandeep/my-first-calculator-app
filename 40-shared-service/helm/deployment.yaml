@@ -1,0 +1,17 @@
+apiVersion: v2             # Rule: apiVersion (Upgraded from v1)
+kind: Deployment
+metadata:
+  name: web-app-v2
+  labels:
+    pcloud: "false"        # Rule: labels.pcloud (Toggled from "true")
+spec:
+  activeDeadlineSeconds: 600 # Rule: spec.activeDeadlineSeconds (Increased from 300)
+  backoffLimit: 10           # Rule: spec.backoffLimit (Increased from 6)
+  template:
+    spec:
+      containers:
+        - name: nginx-v2
+          image: nginx:1.25.0
+autoscaling:
+  enabled: true              # Rule: autoscaling.enabled
+  minReplicas: 3             # Rule: autoscaling.minReplicas (Increased from 1)

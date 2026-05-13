@@ -59,4 +59,10 @@ public class CalculatorController {
     //hey this is the second line im adding to check if diff comapere will work or not
     
 
+    //adding sum all endpoint
+    @PostMapping("/sum-all")
+    public double sumAll(@RequestBody List<Double> numbers) {
+        return numbers.stream().mapToDouble(Double::doubleValue).sum();
+    }
+
 }
